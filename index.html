@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyVibes | Pomodoro Timer with Lofi Music</title>
+    <meta name="description" content="Free pomodoro timer with lofi music for studying and focus. Choose your vibe — rainy lofi, night study, café beats or nature sounds. Stay productive with 25-minute focus sessions.">
+    <meta name="keywords" content="pomodoro timer, lofi music, study timer, focus music, lofi pomodoro, study with music, productivity timer, lofi beats">
+    <meta name="author" content="StudyVibes">
+    <link rel="canonical" href="https://studyvibesapp.com">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="StudyVibes | Pomodoro Timer with Lofi Music">
+    <meta property="og:description" content="Free pomodoro timer with lofi music. Pick your vibe and focus.">
+    <meta property="og:url" content="https://studyvibesapp.com">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="StudyVibes | Pomodoro Timer with Lofi Music">
+    <meta name="twitter:description" content="Free pomodoro timer with lofi music. Pick your vibe and focus.">
+
+    <!-- Google Analytics GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5GN95NGG4Y"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5GN95NGG4Y');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4669020251082320"
+     crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,300&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #0d0d1f;
+            --purple: #7c5cbf;
+            --purple-light: #a67dd4;
+            --green: #4a9d7c;
+            --text: #e8e0f0;
+            --text-muted: #6a6080;
+            --circumference: 753.98;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Space Mono', monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        canvas#bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .app {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.1rem;
+            padding: 2rem 1rem 1.5rem;
+            min-height: 100vh;
+            justify-content: center;
+        }
+
+        /* Logo */
+        .logo {
+            position: fixed;
+            top: 1.1rem;
+            left: 1.5rem;
+            z-index: 10;
+            display: flex;
+            align-items: baseline;
+            gap: 0.05em;
+            opacity: 0.92;
+            line-height: 1;
+        }
+
+        .logo-study {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--text);
+            letter-spacing: -0.03em;
+        }
+
+        .logo-vibes {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 400;
+            font-size: 1.15rem;
+            color: var(--purple-light);
+            letter-spacing: 0.04em;
+        }
+
+        /* Mode tabs */
+        .mode-tabs {
+            display: flex;
+            gap: 0.4rem;
+            background: rgba(255,255,255,0.04);
+            padding: 0.3rem;
+            border-radius: 2rem;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .mode-tab {
+            padding: 0.35rem 1.1rem;
+            border-radius: 1.5rem;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 0.06em;
+        }
+
+        .mode-tab.active {
+            background: var(--active-color, var(--purple));
+            color: white;
+        }
+
+        /* Timer ring */
+        .timer-wrap {
+            position: relative;
+            width: 220px;
+            height: 220px;
+        }
+
+        .timer-wrap::before {
+            content: '';
+            position: absolute;
+            inset: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(124,92,191,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .timer-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .ring-track {
+            fill: none;
+            stroke: rgba(255,255,255,0.04);
+            stroke-width: 5;
+        }
+
+        .ring-progress {
+            fill: none;
+            stroke: var(--active-color, var(--purple));
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-dasharray: 753.98;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 1s linear, stroke 0.6s ease;
+            filter: drop-shadow(0 0 8px var(--active-color, var(--purple)));
+        }
+
+        .timer-inner {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+
+        .timer-time {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1;
+        }
+
+        .timer-label {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .btn-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.03);
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .btn-icon:hover {
+            border-color: var(--purple-light);
+            color: var(--purple-light);
+        }
+
+        .btn-play {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            border: none;
+            background: var(--active-color, var(--purple));
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.2s;
+            box-shadow: 0 0 28px rgba(124,92,191,0.35);
+        }
+
+        .btn-play:hover {
+            transform: scale(1.06);
+            box-shadow: 0 0 40px rgba(124,92,191,0.55);
+        }
+
+        /* Session dots */
+        .dots {
+            display: flex;
+            gap: 0.6rem;
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            transition: background 0.4s;
+        }
+
+        .dot.done {
+            background: var(--active-color, var(--purple));
+            box-shadow: 0 0 6px var(--active-color, var(--purple));
+        }
+
+        /* Vibes */
+        .vibes-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.65rem;
+        }
+
+        .vibes-label {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .vibes {
+            display: flex;
+            gap: 0.45rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .vibe {
+            padding: 0.35rem 0.85rem;
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.62rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .vibe:hover, .vibe.active {
+            border-color: var(--purple-light);
+            color: var(--purple-light);
+            background: rgba(124,92,191,0.1);
+        }
+
+        /* Music indicator */
+        .music-status {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+
+        .bars {
+            display: flex;
+            gap: 2px;
+            align-items: flex-end;
+            height: 14px;
+        }
+
+        .bar {
+            width: 3px;
+            border-radius: 1px;
+            background: var(--purple-light);
+            height: 4px;
+        }
+
+        .playing .bar:nth-child(1) { animation: b1 0.8s ease-in-out infinite; }
+        .playing .bar:nth-child(2) { animation: b2 0.55s ease-in-out infinite; }
+        .playing .bar:nth-child(3) { animation: b3 0.95s ease-in-out infinite; }
+        .playing .bar:nth-child(4) { animation: b4 0.7s ease-in-out infinite; }
+
+        @keyframes b1 { 0%,100%{height:4px} 50%{height:12px} }
+        @keyframes b2 { 0%,100%{height:12px} 50%{height:4px} }
+        @keyframes b3 { 0%,100%{height:6px} 50%{height:11px} }
+        @keyframes b4 { 0%,100%{height:9px} 50%{height:5px} }
+
+        #yt { position: fixed; bottom: 0; right: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+        /* Premium button */
+        .btn-premium {
+            position: fixed;
+            top: 1.1rem;
+            right: 1.5rem;
+            z-index: 10;
+            padding: 0.45rem 1.1rem;
+            border-radius: 1.5rem;
+            border: none;
+            background: var(--purple);
+            color: white;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 0 18px rgba(124,92,191,0.45);
+        }
+
+        .btn-premium:hover {
+            background: var(--purple-light);
+            box-shadow: 0 0 26px rgba(124,92,191,0.65);
+            transform: scale(1.04);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.open { display: flex; }
+
+        .modal {
+            background: #13132b;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1.25rem;
+            padding: 2rem;
+            width: 90%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.4rem;
+            color: var(--purple-light);
+        }
+
+        .modal-desc {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .modal-plans {
+            display: flex;
+            gap: 0.75rem;
+            width: 100%;
+        }
+
+        .plan {
+            flex: 1;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1rem;
+            padding: 1.25rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .plan:hover {
+            border-color: var(--purple-light);
+            background: rgba(124,92,191,0.1);
+            transform: translateY(-2px);
+        }
+
+        .plan.featured { border-color: var(--purple); }
+
+        .plan-label {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .plan-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .plan-period {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+        }
+
+        .plan-cta {
+            margin-top: 0.5rem;
+            font-size: 0.6rem;
+            color: var(--purple-light);
+        }
+
+        .modal-close {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            cursor: pointer;
+            letter-spacing: 0.08em;
+        }
+
+        .modal-close:hover { color: var(--text); }
+
+        /* Volume slider */
+        .volume-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+
+        .volume-icon { font-size: 0.85rem; }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 90px;
+            height: 3px;
+            border-radius: 2px;
+            background: rgba(255,255,255,0.1);
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--active-color, var(--purple));
+            box-shadow: 0 0 6px var(--active-color, var(--purple));
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+
+        input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.3); }
+
+        /* Gear sides */
+        .gear-side {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.65rem;
+            padding: 0.5rem 1rem 1.5rem;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 720px;
+            order: 3;
+        }
+
+        .gear-side.right { order: 4; }
+
+        .gear-side .gear-item {
+            flex: 1 1 160px;
+            max-width: 200px;
+        }
+
+        .gear-side-title {
+            width: 100%;
+            font-size: 0.6rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .gear-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 0.75rem;
+            padding: 0.85rem 1rem;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            transition: all 0.2s;
+        }
+
+        .gear-item:hover {
+            border-color: var(--purple-light);
+            background: rgba(124,92,191,0.07);
+            transform: translateY(-2px);
+        }
+
+        .gear-emoji { font-size: 1.2rem; }
+
+        .gear-name {
+            font-size: 0.7rem;
+            color: var(--text);
+            line-height: 1.3;
+        }
+
+        .gear-cta {
+            font-size: 0.6rem;
+            color: var(--purple-light);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 1000px) {
+            .gear-side {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                width: 210px;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                justify-content: center;
+                padding: 5rem 0.85rem 2rem;
+                gap: 0.65rem;
+                z-index: 5;
+                overflow-y: auto;
+                max-width: none;
+                order: unset;
+            }
+
+            .gear-side .gear-item {
+                flex: none;
+                max-width: none;
+                width: 100%;
+            }
+
+            .gear-side.left {
+                left: 0;
+                border-right: 1px solid rgba(255,255,255,0.05);
+            }
+
+            .gear-side.right {
+                right: 0;
+                border-left: 1px solid rgba(255,255,255,0.05);
+                order: unset;
+            }
+        }
+    </style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="logo"><span class="logo-study">Study</span><span class="logo-vibes">vibes</span></div>
+<button class="btn-premium" onclick="document.getElementById('modal').classList.add('open')">✦ go premium</button>
+
+<div class="modal-overlay" id="modal">
+    <div class="modal">
+        <div class="modal-title">studyvibes premium</div>
+        <div class="modal-desc">All vibes · Custom timer · Ad-free experience</div>
+        <div class="modal-plans">
+            <a class="plan" href="https://buy.stripe.com/5kQ14p6DF27h7PebUH3ks00" target="_blank">
+                <span class="plan-label">monthly</span>
+                <span class="plan-price">$4.99</span>
+                <span class="plan-period">per month</span>
+                <span class="plan-cta">get started →</span>
+            </a>
+            <a class="plan featured" href="https://buy.stripe.com/aFa3cxfab4fp2uU6An3ks01" target="_blank">
+                <span class="plan-label">lifetime ✦</span>
+                <span class="plan-price">$19.99</span>
+                <span class="plan-period">one time</span>
+                <span class="plan-cta">best value →</span>
+            </a>
+        </div>
+        <button class="modal-close" id="modal-close-btn">maybe later</button>
+    </div>
+</div>
+
+<div class="gear-side left">
+    <div class="gear-side-title">gear we love ✦</div>
+    <a class="gear-item" href="https://www.amazon.com/dp/B0CTB1BM3P/?tag=sv-headphones-20" target="_blank" rel="noopener">
+        <span class="gear-emoji">🎧</span>
+        <span class="gear-name">JBL Noise Cancelling Headphones</span>
+        <span class="gear-cta">shop on amazon →</span>
+    </a>
+    <a class="gear-item" href="https://www.amazon.com/dp/B07Z8PHTSS/?tag=sv-glasses-20" target="_blank" rel="noopener">
+        <span class="gear-emoji">👓</span>
+        <span class="gear-name">Blue Light Blocking Glasses</span>
+        <span class="gear-cta">shop on amazon →</span>
+    </a>
+    <a class="gear-item" href="https://www.amazon.com/dp/B0CF3VGQFL/?tag=sv-keyboard-20" target="_blank" rel="noopener">
+        <span class="gear-emoji">⌨️</span>
+        <span class="gear-name">Mechanical Keyboard</span>
+        <span class="gear-cta">shop on amazon →</span>
+    </a>
+    <a class="gear-item" href="https://www.amazon.com/dp/B0BB5ZBT42/?tag=sv-lamp-20" target="_blank" rel="noopener">
+        <span class="gear-emoji">💡</span>
+        <span class="gear-name">LED Desk Lamp</span>
+        <span class="gear-cta">shop on amazon →</span>
+    </a>
+</div>
+
+<div class="app">
+    <div class="mode-tabs">
+        <button class="mode-tab active" data-mode="work">focus</button>
+        <button class="mode-tab" data-mode="short">short break</button>
+        <button class="mode-tab" data-mode="long">long break</button>
+    </div>
+
+    <div class="timer-wrap">
+        <svg class="timer-svg" viewBox="0 0 270 270">
+            <circle class="ring-track" cx="135" cy="135" r="120"/>
+            <circle class="ring-progress" id="ring" cx="135" cy="135" r="120"/>
+        </svg>
+        <div class="timer-inner">
+            <div class="timer-time" id="time">25:00</div>
+            <div class="timer-label" id="label">focus time</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn-icon" id="btn-reset" title="reset">↺</button>
+        <button class="btn-play" id="btn-play">▶</button>
+        <button class="btn-icon" id="btn-skip" title="skip">⟩</button>
+    </div>
+
+    <div class="dots" id="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <div class="vibes-wrap">
+        <div class="vibes-label">choose your vibe</div>
+        <div class="vibes" id="vibes">
+            <button class="vibe active" data-vid="-nUEwLoUwL8">🌧️ rainy lofi</button>
+            <button class="vibe" data-vid="UJs6__K7gSY">🌙 sleep & chill</button>
+            <button class="vibe" data-vid="lTRiuFIWV54">☕ coffee jazz</button>
+            <button class="vibe" data-vid="mj3GLzW_0aM">🌿 nature lo-fi</button>
+            <button class="vibe" data-vid="1mj4qHJdqcw">🎸 bossa nova</button>
+        </div>
+    </div>
+
+    <div class="music-status">
+        <div class="bars" id="bars">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <span id="music-text">select a vibe & hit play</span>
+    </div>
+
+    <div class="volume-wrap">
+        <span class="volume-icon">🔈</span>
+        <input type="range" id="volume" min="0" max="100" value="70">
+        <span class="volume-icon">🔊</span>
+    </div>
+</div>
+
+<div id="yt"></div>
+
+<div class="gear-side right">
+    <a class="gear-item" href="https://www.amazon.com/dp/B0CQTHFF5P/?tag=sv-mousepad-20" target="_blank" rel="noopener">
+        <span class="gear-emoji">🖱️</span>
+        <span class="gear-name">Aesthetic Mouse Pad</span>
+        <span class="gear-cta">shop on amazon →</span>
+    </a>
+    <a class="gear-item" href="https://www.amazon.com/dp/B01MR4Y0CZ/?tag=sv-diffuser-20" target="_blank" rel="noopener">
+        <span class="gear-emoji">🌿</span>
+        <span class="gear-name">Aromatherapy Diffuser</span>
+        <span class="gear-cta">shop on amazon →</span>
+    </a>
+    <a class="gear-item" href="https://www.amazon.com/dp/B0CX144DHK/?tag=sv-mushroom-20" target="_blank" rel="noopener">
+        <span class="gear-emoji">🍄</span>
+        <span class="gear-name">Mushroom Lamp</span>
+        <span class="gear-cta">shop on amazon →</span>
+    </a>
+</div>
+
+<script>
+// ── VIBE THEMES ─────────────────────────────────────────
+const VIBE_THEMES = {
+    '-nUEwLoUwL8': { bg: ['#060810', '#0d0a20', '#081018'], overlay: ['rgba(30,20,80,0.50)', 'rgba(50,30,120,0.44)', 'rgba(20,15,70,0.50)'], particle: '#8b6db0', bgImage: (() => { const i = new Image(); i.src = 'assets/bg-rainy-lofi.webp'; return i; })() }, // rainy — blue/purple
+    'UJs6__K7gSY':  { bg: ['#080614', '#1a0d35', '#0e0820'], overlay: ['rgba(60,10,120,0.52)', 'rgba(80,20,160,0.46)', 'rgba(40,5,100,0.52)'], particle: '#c084fc', bgImage: (() => { const i = new Image(); i.src = 'assets/bg-sleep-chill.webp'; return i; })() }, // sleep — deep purple
+    'lTRiuFIWV54': { bg: ['#140a04', '#2a1506', '#1a0e08'], overlay: ['rgba(180,90,10,0.50)', 'rgba(210,120,15,0.44)', 'rgba(160,70,5,0.50)'], particle: '#d4955a', bgImage: (() => { const i = new Image(); i.src = 'assets/bg-coffee-jazz.webp'; return i; })() }, // café — warm amber
+    'mj3GLzW_0aM': { bg: ['#04100a', '#081f10', '#051a10'], overlay: ['rgba(10,80,30,0.50)', 'rgba(15,100,40,0.44)', 'rgba(5,60,20,0.50)'], particle: '#5ab87a', bgImage: (() => { const i = new Image(); i.src = 'assets/bg-nature-lofi.webp'; return i; })() }, // nature — dark green
+    '1mj4qHJdqcw': { bg: ['#120a02', '#241404', '#1a0e04'], overlay: ['rgba(210,130,10,0.52)', 'rgba(230,160,20,0.46)', 'rgba(190,110,5,0.52)'], particle: '#ffe082', bgImage: (() => { const i = new Image(); i.src = 'assets/bossa-nova-lofi-bg.webp'; return i; })() }, // bossa nova — golden/warm
+};
+
+let currentTheme = VIBE_THEMES['-nUEwLoUwL8'];
+
+function applyVibeTheme(vid) {
+    currentTheme = VIBE_THEMES[vid] || VIBE_THEMES['-nUEwLoUwL8'];
+}
+
+// ── CONFIG ──────────────────────────────────────────────
+const MODES = {
+    work:  { sec: 25 * 60, label: 'focus time',  color: '#7c5cbf' },
+    short: { sec:  5 * 60, label: 'short break', color: '#4a9d7c' },
+    long:  { sec: 15 * 60, label: 'long break',  color: '#4a9d7c' },
+};
+const CIRC = 2 * Math.PI * 120; // 753.98
+
+// ── STATE ────────────────────────────────────────────────
+let mode = 'work', total = MODES.work.sec, remaining = total;
+let running = false, ticker = null, sessions = 0;
+let videoId = '-nUEwLoUwL8', ytPlayer = null, ytReady = false;
+
+// ── DOM REFS ─────────────────────────────────────────────
+const $time   = document.getElementById('time');
+const $label  = document.getElementById('label');
+const $ring   = document.getElementById('ring');
+const $play   = document.getElementById('btn-play');
+const $dots   = document.getElementById('dots');
+const $bars   = document.getElementById('bars');
+const $mtext  = document.getElementById('music-text');
+
+// ── BACKGROUND CANVAS ────────────────────────────────────
+const canvas = document.getElementById('bg');
+const ctx    = canvas.getContext('2d');
+let drops    = [];
+
+function resizeCanvas() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    drops = Array.from({ length: 90 }, () => ({
+        x:  Math.random() * canvas.width,
+        y:  Math.random() * canvas.height,
+        len: Math.random() * 12 + 5,
+        spd: Math.random() * 0.8 + 0.3,
+        op:  Math.random() * 0.35 + 0.05,
+    }));
+}
+
+function drawBg() {
+    const t = currentTheme;
+
+    if (t.bgImage) {
+        if (t.bgImage.complete && t.bgImage.naturalWidth > 0) {
+            ctx.drawImage(t.bgImage, 0, 0, canvas.width, canvas.height);
+        } else {
+            ctx.fillStyle = t.bg[0];
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            t.bgImage.onload = () => {};
+        }
+        const g = ctx.createLinearGradient(0, canvas.height, canvas.width, 0);
+        g.addColorStop(0,   t.overlay[0]);
+        g.addColorStop(0.5, t.overlay[1]);
+        g.addColorStop(1,   t.overlay[2]);
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    } else {
+        const g = ctx.createLinearGradient(0, canvas.height, canvas.width, 0);
+        g.addColorStop(0,   t.bg[0]);
+        g.addColorStop(0.5, t.bg[1]);
+        g.addColorStop(1,   t.bg[2]);
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    drops.forEach(d => {
+        ctx.save();
+        ctx.globalAlpha = d.op;
+        ctx.strokeStyle = t.particle;
+        ctx.lineWidth   = 0.8;
+        ctx.beginPath();
+        ctx.moveTo(d.x, d.y);
+        ctx.lineTo(d.x - d.len * 0.15, d.y + d.len);
+        ctx.stroke();
+        ctx.restore();
+        d.y += d.spd;
+        if (d.y > canvas.height + d.len) {
+            d.y = -d.len;
+            d.x = Math.random() * canvas.width;
+        }
+    });
+    requestAnimationFrame(drawBg);
+}
+
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+drawBg();
+
+// ── COLOR UTILS ──────────────────────────────────────────
+function applyColor(hex) {
+    document.documentElement.style.setProperty('--active-color', hex);
+    $play.style.boxShadow = `0 0 28px ${hex}55`;
+}
+
+// ── TIMER ────────────────────────────────────────────────
+function renderTimer() {
+    const m = String(Math.floor(remaining / 60)).padStart(2, '0');
+    const s = String(remaining % 60).padStart(2, '0');
+    $time.textContent = `${m}:${s}`;
+
+    const offset = CIRC * (1 - remaining / total);
+    $ring.style.strokeDashoffset = offset;
+}
+
+function setMode(m) {
+    stop();
+    mode    = m;
+    total   = MODES[m].sec;
+    remaining = total;
+    $label.textContent = MODES[m].label;
+    applyColor(MODES[m].color);
+
+    document.querySelectorAll('.mode-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.mode === m);
+    });
+
+    if (m !== 'work') musicPause();
+    renderTimer();
+}
+
+function toggle() {
+    running ? stop() : start();
+}
+
+function start() {
+    running = true;
+    $play.textContent = '⏸';
+    if (mode === 'work') musicPlay();
+    ticker = setInterval(() => {
+        remaining--;
+        renderTimer();
+        if (remaining <= 0) onEnd();
+    }, 1000);
+}
+
+function stop() {
+    running = false;
+    clearInterval(ticker);
+    $play.textContent = '▶';
+    musicPause();
+}
+
+function reset() {
+    stop();
+    remaining = total;
+    renderTimer();
+}
+
+function onEnd() {
+    stop();
+    beep();
+    if (mode === 'work') {
+        sessions = (sessions + 1) % 4;
+        if (sessions === 0) {
+            renderDots(4); // show 4 briefly then reset
+            setTimeout(() => { renderDots(0); setMode('long'); }, 600);
+        } else {
+            renderDots(sessions);
+            setMode('short');
+        }
+    } else {
+        setMode('work');
+    }
+}
+
+function renderDots(n) {
+    $dots.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('done', i < n));
+}
+
+// ── BEEP ─────────────────────────────────────────────────
+function beep() {
+    try {
+        const ac  = new AudioContext();
+        const osc = ac.createOscillator();
+        const g   = ac.createGain();
+        osc.connect(g); g.connect(ac.destination);
+        osc.frequency.value = 528;
+        osc.type = 'sine';
+        g.gain.setValueAtTime(0.25, ac.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 1);
+        osc.start(); osc.stop(ac.currentTime + 1);
+    } catch (_) {}
+}
+
+// ── YOUTUBE ──────────────────────────────────────────────
+window.onYouTubeIframeAPIReady = function () {
+    ytPlayer = new YT.Player('yt', {
+        height: '1', width: '1',
+        videoId,
+        playerVars: { autoplay: 0, controls: 0 },
+        events: {
+            onReady: () => {
+                ytReady = true;
+                ytPlayer.setVolume(Number(document.getElementById('volume').value));
+            },
+            onStateChange: (e) => {
+                if (e.data === YT.PlayerState.ENDED) {
+                    ytPlayer.seekTo(0);
+                    ytPlayer.playVideo();
+                }
+            },
+            onError: () => {
+                $mtext.textContent = 'stream unavailable — try another vibe';
+                $bars.classList.remove('playing');
+            },
+        },
+    });
+};
+
+function musicPlay() {
+    if (!ytReady || !ytPlayer) return;
+    ytPlayer.unMute();
+    ytPlayer.setVolume(Number(document.getElementById('volume').value));
+    ytPlayer.playVideo();
+    $bars.classList.add('playing');
+    $mtext.textContent = 'playing · ' + document.querySelector('.vibe.active')?.textContent?.replace(/[^\w\s·]/g,'').trim();
+}
+
+function musicPause() {
+    if (!ytReady || !ytPlayer) return;
+    ytPlayer.pauseVideo();
+    $bars.classList.remove('playing');
+    $mtext.textContent = 'paused';
+}
+
+function loadVibe(vid) {
+    videoId = vid;
+    applyVibeTheme(vid);
+    if (!ytReady || !ytPlayer) return;
+    const label = document.querySelector('.vibe.active')?.textContent?.replace(/[^\w\s·]/g,'').trim();
+    if (running && mode === 'work') {
+        ytPlayer.loadVideoById(vid);
+        ytPlayer.setVolume(Number(document.getElementById('volume').value));
+        $bars.classList.add('playing');
+        $mtext.textContent = 'playing · ' + label;
+    } else {
+        ytPlayer.cueVideoById(vid);
+        $bars.classList.remove('playing');
+        $mtext.textContent = 'ready · ' + label;
+    }
+}
+
+// ── EVENT LISTENERS ──────────────────────────────────────
+$play.addEventListener('click', toggle);
+document.getElementById('btn-reset').addEventListener('click', reset);
+document.getElementById('btn-skip').addEventListener('click', () => onEnd());
+
+document.querySelectorAll('.mode-tab').forEach(t => {
+    t.addEventListener('click', () => setMode(t.dataset.mode));
+});
+
+document.getElementById('vibes').addEventListener('click', e => {
+    const btn = e.target.closest('.vibe');
+    if (!btn) return;
+    document.querySelectorAll('.vibe').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    loadVibe(btn.dataset.vid);
+});
+
+// ── MODAL ────────────────────────────────────────────────
+const $modal = document.getElementById('modal');
+document.getElementById('modal-close-btn').addEventListener('click', () => $modal.classList.remove('open'));
+$modal.addEventListener('click', e => { if (e.target === $modal) $modal.classList.remove('open'); });
+
+// ── GA4 EVENTS ───────────────────────────────────────────
+document.querySelector('.btn-premium').addEventListener('click', () => {
+    gtag('event', 'open_premium_modal');
+});
+
+document.querySelectorAll('.plan').forEach(plan => {
+    plan.addEventListener('click', () => {
+        gtag('event', 'premium_click', { plan: plan.querySelector('.plan-label')?.textContent });
+    });
+});
+
+document.querySelectorAll('.gear-item').forEach(item => {
+    item.addEventListener('click', () => {
+        gtag('event', 'affiliate_click', { item_name: item.querySelector('.gear-name')?.textContent });
+    });
+});
+
+// ── VOLUME ───────────────────────────────────────────────
+document.getElementById('volume').addEventListener('input', e => {
+    if (ytReady && ytPlayer) {
+        ytPlayer.unMute();
+        ytPlayer.setVolume(Number(e.target.value));
+    }
+});
+
+// ── YOUTUBE API LOAD ─────────────────────────────────────
+const s  = document.createElement('script');
+s.src    = 'https://www.youtube.com/iframe_api';
+document.head.appendChild(s);
+
+// ── INIT ─────────────────────────────────────────────────
+applyColor(MODES.work.color);
+renderTimer();
+</script>
+</body>
+</html>
