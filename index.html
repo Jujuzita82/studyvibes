@@ -77,12 +77,27 @@
             justify-content: center;
         }
 
+        /* Fixed dark header bar */
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3.5rem;
+            background: rgba(8,8,20,0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            z-index: 9;
+        }
+
         /* Logo */
         .logo {
             position: fixed;
             top: 1.1rem;
             left: 1.5rem;
             z-index: 10;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.6);
             display: flex;
             align-items: baseline;
             gap: 0.05em;
@@ -111,10 +126,12 @@
         .mode-tabs {
             display: flex;
             gap: 0.4rem;
-            background: rgba(255,255,255,0.04);
+            background: rgba(8,8,20,0.72);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             padding: 0.3rem;
             border-radius: 2rem;
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
         }
 
         .mode-tab {
@@ -189,13 +206,15 @@
             font-weight: 700;
             letter-spacing: -0.03em;
             line-height: 1;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.6);
         }
 
         .timer-label {
             font-size: 0.6rem;
-            color: var(--text-muted);
+            color: var(--text);
             letter-spacing: 0.2em;
             text-transform: uppercase;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.6);
         }
 
         /* Controls */
@@ -209,9 +228,11 @@
             width: 42px;
             height: 42px;
             border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.03);
-            color: var(--text-muted);
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(8,8,20,0.7);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            color: var(--text);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -275,9 +296,10 @@
 
         .vibes-label {
             font-size: 0.6rem;
-            color: var(--text-muted);
+            color: var(--text);
             letter-spacing: 0.18em;
             text-transform: uppercase;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.6);
         }
 
         .vibes {
@@ -290,9 +312,11 @@
         .vibe {
             padding: 0.35rem 0.85rem;
             border-radius: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: transparent;
-            color: var(--text-muted);
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(8,8,20,0.62);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            color: var(--text);
             font-family: 'Space Mono', monospace;
             font-size: 0.62rem;
             cursor: pointer;
@@ -311,7 +335,13 @@
             align-items: center;
             gap: 0.6rem;
             font-size: 0.6rem;
-            color: var(--text-muted);
+            color: var(--text);
+            background: rgba(8,8,20,0.62);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            padding: 0.4rem 0.85rem;
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.06);
         }
 
         .bars {
@@ -473,7 +503,13 @@
             align-items: center;
             gap: 0.6rem;
             font-size: 0.6rem;
-            color: var(--text-muted);
+            color: var(--text);
+            background: rgba(8,8,20,0.62);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            padding: 0.45rem 0.95rem;
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.06);
         }
 
         .volume-icon { font-size: 0.85rem; }
@@ -507,10 +543,16 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 0.65rem;
-            padding: 0.5rem 1rem 1.5rem;
+            padding: 1rem;
+            margin: 0.5rem auto;
+            background: rgba(8,8,20,0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 1rem;
             position: relative;
             z-index: 1;
-            width: 100%;
+            width: calc(100% - 2rem);
             max-width: 720px;
             order: 3;
         }
@@ -532,8 +574,8 @@
         }
 
         .gear-item {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(8,8,20,0.66);
+            border: 1px solid rgba(255,255,255,0.09);
             border-radius: 0.75rem;
             padding: 0.85rem 1rem;
             text-decoration: none;
@@ -564,6 +606,32 @@
             margin-top: 0.2rem;
         }
 
+        /* AdSense unit */
+        .ad-unit {
+            width: 100%;
+            background: rgba(8,8,20,0.55);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 0.75rem;
+            padding: 0.6rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+            min-height: 120px;
+            overflow: hidden;
+        }
+
+        .ad-unit .ad-label {
+            font-size: 0.5rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .ad-unit ins { width: 100%; display: block; }
+
+        body.premium .ad-unit { display: none; }
+
         @media (min-width: 1000px) {
             .gear-side {
                 position: fixed;
@@ -574,7 +642,9 @@
                 flex-wrap: nowrap;
                 justify-content: center;
                 padding: 5rem 0.85rem 2rem;
+                margin: 0;
                 gap: 0.65rem;
+                border-radius: 0;
                 z-index: 5;
                 overflow-y: auto;
                 max-width: none;
@@ -602,6 +672,7 @@
 </head>
 <body>
 <canvas id="bg"></canvas>
+<div class="topbar"></div>
 <div class="logo"><span class="logo-study">Study</span><span class="logo-vibes">vibes</span></div>
 <button class="btn-premium" onclick="document.getElementById('modal').classList.add('open')">✦ go premium</button>
 
@@ -649,6 +720,16 @@
         <span class="gear-name">LED Desk Lamp</span>
         <span class="gear-cta">shop on amazon →</span>
     </a>
+    <!-- AdSense — substitua data-ad-slot pelo SLOT ID do bloco "StudyVibes — Left" criado no painel do AdSense -->
+    <div class="ad-unit">
+        <span class="ad-label">advertisement</span>
+        <ins class="adsbygoogle"
+             style="display:block; width:100%"
+             data-ad-client="ca-pub-4669020251082320"
+             data-ad-slot="9510100026"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+    </div>
 </div>
 
 <div class="app">
@@ -728,6 +809,16 @@
         <span class="gear-name">Mushroom Lamp</span>
         <span class="gear-cta">shop on amazon →</span>
     </a>
+    <!-- AdSense — substitua data-ad-slot pelo SLOT ID do bloco "StudyVibes — Right" criado no painel do AdSense -->
+    <div class="ad-unit">
+        <span class="ad-label">advertisement</span>
+        <ins class="adsbygoogle"
+             style="display:block; width:100%"
+             data-ad-client="ca-pub-4669020251082320"
+             data-ad-slot="8197018354"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+    </div>
 </div>
 
 <script>
@@ -1039,6 +1130,16 @@ document.getElementById('volume').addEventListener('input', e => {
 const s  = document.createElement('script');
 s.src    = 'https://www.youtube.com/iframe_api';
 document.head.appendChild(s);
+
+// ── ADSENSE ──────────────────────────────────────────────
+// Só inicializa blocos cujo data-ad-slot já é um ID numérico real.
+// Enquanto estiver com placeholder (REPLACE_WITH_…), o bloco é ignorado e nada quebra.
+document.querySelectorAll('ins.adsbygoogle').forEach(ins => {
+    const slot = ins.getAttribute('data-ad-slot') || '';
+    if (/^\d{6,}$/.test(slot)) {
+        try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
+    }
+});
 
 // ── INIT ─────────────────────────────────────────────────
 applyColor(MODES.work.color);
