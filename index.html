@@ -668,6 +668,103 @@
                 order: unset;
             }
         }
+
+        /* Editorial content */
+        .content {
+            position: relative;
+            z-index: 6;
+            width: 100%;
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 1rem;
+            order: 5;
+            background: rgba(8,8,20,0.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .content h2 {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 400;
+            font-size: 1.5rem;
+            color: var(--purple-light);
+            margin: 2.2rem 0 0.75rem;
+            text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+        }
+
+        .content h2:first-of-type { margin-top: 0; }
+
+        .content h3 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 1.3rem 0 0.35rem;
+        }
+
+        .content p,
+        .content li {
+            font-size: 0.8rem;
+            line-height: 1.8;
+            color: var(--text);
+            opacity: 0.9;
+        }
+
+        .content p { margin-bottom: 0.85rem; }
+        .content ul, .content ol { padding-left: 1.35rem; margin-bottom: 0.85rem; }
+        .content li { margin-bottom: 0.45rem; }
+        .content strong { color: var(--text); }
+        .content .lead { font-size: 0.88rem; color: var(--text); opacity: 0.95; }
+
+        @media (min-width: 1000px) {
+            .content { max-width: 640px; padding-top: 5rem; }
+        }
+
+        /* Footer */
+        .site-footer {
+            position: relative;
+            z-index: 6;
+            width: 100%;
+            padding: 1.5rem 1rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.55rem;
+            background: rgba(8,8,20,0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            order: 6;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem 1.1rem;
+        }
+
+        .footer-links a {
+            font-size: 0.62rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            letter-spacing: 0.08em;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--purple-light); }
+
+        .footer-note {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            text-align: center;
+            line-height: 1.6;
+            max-width: 520px;
+        }
+
+        @media (min-width: 1000px) {
+            .site-footer { padding-left: 230px; padding-right: 230px; }
+        }
     </style>
 </head>
 <body>
@@ -815,6 +912,65 @@
              data-full-width-responsive="true"></ins>
     </div>
 </div>
+
+<section class="content">
+    <h2>Focus better with the Pomodoro Technique</h2>
+    <p class="lead">StudyVibes is a free online pomodoro timer paired with lofi music, built to help students, researchers, and remote workers get into deep focus without downloading anything or creating an account. Pick a vibe, press play, and let the timer structure your work.</p>
+
+    <h2>How the Pomodoro Technique works</h2>
+    <p>The Pomodoro Technique is a time-management method created by Francesco Cirillo in the late 1980s. Instead of working in long, draining stretches, you break your work into short, focused intervals separated by deliberate breaks. Each interval is called a "pomodoro" — Italian for tomato, after the tomato-shaped kitchen timer Cirillo used as a student.</p>
+    <p>StudyVibes follows the classic rhythm:</p>
+    <ol>
+        <li><strong>Focus for 25 minutes.</strong> Choose a single task and give it your full attention until the timer rings.</li>
+        <li><strong>Take a 5-minute short break.</strong> Stand up, stretch, drink water, or rest your eyes away from the screen.</li>
+        <li><strong>Repeat four times.</strong> After four focus sessions, take a longer 15-minute break to fully recharge.</li>
+    </ol>
+    <p>The session dots below the timer track your progress through each cycle, so you always know where you are without watching the clock.</p>
+
+    <h2>Why lofi music helps you concentrate</h2>
+    <p>Lofi — short for "low fidelity" — is music with a warm, imperfect sound: soft beats, mellow melodies, and gentle background texture. It sits comfortably in the background because it has no lyrics competing for your attention and no dramatic changes to pull you out of flow.</p>
+    <p>Many people find that a steady, predictable soundtrack helps them stay on task by:</p>
+    <ul>
+        <li><strong>Masking distractions</strong> — a constant audio layer covers sudden noises that would otherwise break your concentration.</li>
+        <li><strong>Setting a calm baseline</strong> — mellow tempos are less stimulating than energetic music, which makes them easier to tune out.</li>
+        <li><strong>Building a focus ritual</strong> — pressing play becomes a cue that tells your brain it's time to work.</li>
+    </ul>
+    <p>StudyVibes gives you five curated atmospheres — rainy lofi, sleep &amp; chill, coffee jazz, nature lo-fi, and bossa nova — each with its own animated backdrop so you can match the mood to your task.</p>
+
+    <h2>Tips for a better focus session</h2>
+    <ul>
+        <li><strong>Pick one task per pomodoro.</strong> Multitasking splits your attention; a single clear goal keeps you moving.</li>
+        <li><strong>Silence notifications.</strong> Put your phone out of reach for the full 25 minutes.</li>
+        <li><strong>Honor the break.</strong> Real rest between sessions is what makes the next one productive.</li>
+        <li><strong>Keep the same vibe.</strong> Switching tracks constantly is itself a distraction — settle on one and let it fade into the background.</li>
+    </ul>
+
+    <h2>Frequently asked questions</h2>
+    <h3>Is StudyVibes free?</h3>
+    <p>Yes. The pomodoro timer and all five lofi vibes are free to use, with no sign-up required. An optional Premium plan removes ads and unlocks a custom timer.</p>
+
+    <h3>Do I need to install anything?</h3>
+    <p>No. StudyVibes runs entirely in your browser on desktop and mobile. Just open the page and press play.</p>
+
+    <h3>Where does the music come from?</h3>
+    <p>The lofi streams are played from curated third-party sources. If a stream is ever unavailable, simply switch to another vibe.</p>
+
+    <h3>Can I change the length of the timer?</h3>
+    <p>The free version uses the classic 25 / 5 / 15-minute cycle. A custom timer is available in the Premium plan.</p>
+
+    <h3>What is the "gear we love" section?</h3>
+    <p>Those are study and desk products we genuinely like, linked through the Amazon Associates program. If you buy through them, we may earn a small commission at no extra cost to you — it helps keep StudyVibes free.</p>
+</section>
+
+<footer class="site-footer">
+    <nav class="footer-links">
+        <a href="/about.html">About</a>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Use</a>
+        <a href="mailto:juliarcampana@gmail.com">Contact</a>
+    </nav>
+    <p class="footer-note">© 2026 StudyVibes · Free pomodoro timer with lofi music. As an Amazon Associate we earn from qualifying purchases.</p>
+</footer>
 
 <script>
 // ── VIBE THEMES ─────────────────────────────────────────
