@@ -373,26 +373,44 @@
         /* Premium button */
         .btn-premium {
             position: fixed;
-            top: 1.1rem;
+            top: 0.85rem;
             right: 1.5rem;
             z-index: 10;
-            padding: 0.45rem 1.1rem;
+            padding: 0.65rem 1.4rem;
             border-radius: 1.5rem;
             border: none;
             background: var(--purple);
             color: white;
             font-family: 'Space Mono', monospace;
-            font-size: 0.6rem;
-            letter-spacing: 0.08em;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 0 18px rgba(124,92,191,0.45);
+            box-shadow: 0 0 18px rgba(124,92,191,0.55);
+            animation: premium-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes premium-pulse {
+            0%, 100% { box-shadow: 0 0 18px rgba(124,92,191,0.55); }
+            50% { box-shadow: 0 0 28px rgba(124,92,191,0.85); }
         }
 
         .btn-premium:hover {
             background: var(--purple-light);
             box-shadow: 0 0 26px rgba(124,92,191,0.65);
             transform: scale(1.04);
+            animation-play-state: paused;
+        }
+
+        @media (max-width: 640px) {
+            .btn-premium {
+                top: auto;
+                bottom: 1rem;
+                right: 1rem;
+                padding: 0.55rem 1.1rem;
+                font-size: 0.75rem;
+            }
         }
 
         /* Modal */
